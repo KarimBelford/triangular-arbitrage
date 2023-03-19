@@ -1,11 +1,14 @@
 const {
-    getCoinPairs
+    getCoinPairs,
+    getTriangularPairs
 } = require('./triFunctions')
 
-let myCoinPairs = getCoinPairs().then(result => {
-    console.log(result)
-    console.log(result.length);
-});
 
+const main = async() => {
+    let myCoinPairs = await getCoinPairs()
+    let triangularPairs = getTriangularPairs(myCoinPairs)
 
+}
+
+main()
   
