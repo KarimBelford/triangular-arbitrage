@@ -14,13 +14,13 @@ let client = new SpotClientV3({
 )
 
 //get pairs array 
-const getCoinPairs = async() =>{
+const getMarketPrices = async() =>{
     let coinPairs = [];
-    await client.getSymbols()
+    await client.getBestBidAskPrice()
       .then(result => {
 
-        let symbols = result.result.list;
-        coinPairs = symbols.map(symbol => symbol.name);
+        let symbols = result.result.list
+        coinPairs = symbols
       })
       .catch(err => {
         console.error("getOrderBook error: ", err);
@@ -29,6 +29,13 @@ const getCoinPairs = async() =>{
 }
 
 
+
+
+
+
+
+
+// get the base and qoute sympols and put them in an array 
 const getBaseQuoteList = async() =>{
     let baseQuoteList = [];
     await client.getSymbols()
@@ -47,7 +54,7 @@ const getTriangularPairs = async() => {
     let pairList = await getBaseQuoteList();
     let duplicates = {}
     let triangularPairsList = {}
-    pairList = pairList.slice(0,10)
+   // pairList = pairList.slice(0,10)
     for(const pairsA of pairList){
         let aBase = pairsA[0]
         let aQuote = pairsA[1]
@@ -116,8 +123,35 @@ const getTriangularPairs = async() => {
     return triangularPairsList 
 };
 
+const getPairPrices = async(pair,priceData) => {
+    let pairA = pair.pairA
+    let pairB = pair.pairB
+    let pairC = pair.pairC
+    let pairAask, pairAbid, pairBask, pairBbid, pairCask, pairCbid;
+    for(key in priceData){
+        if(priceData[key].symbol===pairA){
+            pairAask = priceData[key].askPrice
+            pairAbid = priceData[key].bidPrice 
+        }
+    }
+    for(key in priceData){
+        if(priceData[key].symbol===pairB){
+            pairBask = priceData[key].askPrice
+            pairBbid = priceData[key].bidPrice 
+        }
+    }
+    for(key in priceData){
+        if(priceData[key].symbol===pairC){
+            pairCask = priceData[key].askPrice
+            pairCbid = priceData[key].bidPrice 
+        }
+    }
+    
+    console.log(pairA,pairAask,pairAbid)
+}
 
 module.exports ={
-    getCoinPairs,
-    getTriangularPairs
+    getTriangularPairs,
+    getPairPrices,
+    getMarketPrices
 }

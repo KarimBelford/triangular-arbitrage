@@ -1,7 +1,8 @@
 const fs = require('fs')
 const {
-    getCoinPairs,
-    getTriangularPairs
+    getTriangularPairs,
+    getPairPrices,
+    getMarketPrices
 } = require('./triFunctions')
 
 const logPairs = async () => {
@@ -26,14 +27,37 @@ const logPairs = async () => {
         });
       }
     });
-  }
+}
+
+const readJsonFile = (filename) => {
+    return new Promise((resolve, reject) => {
+      fs.readFile(filename, 'utf8', (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          try {
+            const obj = JSON.parse(data);
+            resolve(obj);
+          } catch (err) {
+            reject(err);
+          }
+        }
+      });
+    });
+  };
   
-logPairs();
+const step2 = async() => {
+
+    let structuredPairs = await readJsonFile('./arbitragePairs.json')
+    const priceData = await getMarketPrices()
+    for(const key in structuredPairs){
+        let pricesDict = await getPairPrices(structuredPairs[key],priceData)
+    }
+    
+}
   
 const main = async() => {
-    let myCoinPairs = await getCoinPairs()
-    let triangularPairs = getTriangularPairs()
-
+    step2()
 }
 
 main()
