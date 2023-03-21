@@ -128,26 +128,38 @@ const getPairPrices = async(pair,priceData) => {
     let pairB = pair.pairB
     let pairC = pair.pairC
     let pairAask, pairAbid, pairBask, pairBbid, pairCask, pairCbid;
+
     for(key in priceData){
         if(priceData[key].symbol===pairA){
             pairAask = priceData[key].askPrice
-            pairAbid = priceData[key].bidPrice 
+            pairAbid = priceData[key].bidPrice
         }
-    }
-    for(key in priceData){
         if(priceData[key].symbol===pairB){
             pairBask = priceData[key].askPrice
             pairBbid = priceData[key].bidPrice 
         }
-    }
-    for(key in priceData){
         if(priceData[key].symbol===pairC){
             pairCask = priceData[key].askPrice
             pairCbid = priceData[key].bidPrice 
-        }
+        } 
+            
     }
     
-    console.log(pairA,pairAask,pairAbid)
+    if (pairAask === undefined || pairAask === '0' || pairAbid === undefined || pairAbid === '0' || pairBask === undefined || pairBask === '0' || pairBbid === undefined || pairBbid === '0' || pairCask === undefined || pairCask === '0' || pairCbid === undefined || pairCbid === '0') {
+        return 0;
+    } else {
+        return {
+            "pairAask": pairAask,
+            "pairAbid": pairAbid,
+            "pairBask": pairBask,
+            "pairBbid": pairBbid,
+            "pairCask": pairCask,
+            "pairCbid": pairCbid,
+            "pairA": pairA,
+            "pairB": pairB,
+            "pairC": pairC,
+        }
+    }
 }
 
 module.exports ={
