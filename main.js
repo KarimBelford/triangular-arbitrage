@@ -2,7 +2,8 @@ const fs = require('fs')
 const {
     getTriangularPairs,
     getPairPrices,
-    getMarketPrices
+    getMarketPrices,
+    calcSurfaceArb
 } = require('./triFunctions')
 
 const logPairs = async () => {
@@ -56,14 +57,15 @@ const step2 = async() => {
     for(const key in structuredPairs){
       
         let pricesDict = await getPairPrices(structuredPairs[key],priceData)
+        
         if(pricesDict!==0){
           structuredPrices[key] = pricesDict
-          console.log(structuredPrices)
+          let surfaceArb = calcSurfaceArb(structuredPairs[key],pricesDict)
         }
     }
     
 }
-  
+
 const main = async() => {
     step2()
 }
