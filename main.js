@@ -60,7 +60,10 @@ const step2 = async() => {
         
         if(pricesDict!==0){
           structuredPrices[key] = pricesDict
-          let surfaceArb = calcSurfaceArb(structuredPairs[key],pricesDict)
+          let surfaceArb = await calcSurfaceArb(structuredPairs[key],pricesDict)
+          if(surfaceArb!==0){
+            console.log(surfaceArb)
+          }
         }
     }
     
