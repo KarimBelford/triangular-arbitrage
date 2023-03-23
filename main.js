@@ -68,7 +68,7 @@ const step2 = async() => {
 
 const main = async() => {
     //logPairs()
-   step2()
+    step2()
 }
 
 main()
