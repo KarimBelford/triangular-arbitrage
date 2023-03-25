@@ -437,6 +437,10 @@ const calcSurfaceArb = async(pair,priceDict) => {
 
 }
 
+const getOrderBookDepth = async(surfaceArb) => {
+    
+}
+
 module.exports ={
     getTriangularPairs,
     getPairPrices,

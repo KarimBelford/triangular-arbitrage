@@ -47,7 +47,7 @@ const readJsonFile = (filename) => {
     });
   };
   
-const step2 = async() => {
+const surfaceArbInfo = async() => {
 
     let structuredPairs = await readJsonFile('./arbitragePairs.json')
 
@@ -71,7 +71,7 @@ const step2 = async() => {
 
 const main = async() => {
     logPairs()
-    //step2()
+    //surfaceArbInfo()
 }
 
 main()
