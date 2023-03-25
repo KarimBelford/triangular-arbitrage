@@ -438,9 +438,12 @@ const calcSurfaceArb = async(pair,priceDict) => {
 }
 
 const getOrderBookData = async(surfaceArb) => {
-    let {swap1,swap2,swap3,contract1,contract2,contract3} = surfaceArb
-    const {bidPriceDepth:bidPriceDepth1,askPriceDepth1} = await getOrderBookDepth(contract1)
-    console.log(c1)
+    let {swap1,swap2,swap3,contract1,contract2,contract3,directionTrade1} = surfaceArb
+    const {bidPriceDepth:bidPriceDepth1,askPriceDepth:askPriceDepth1} = await getOrderBookDepth(contract1)
+    console.log(bidPriceDepth1)
+    const priceUpdate1 = reformatData(askPriceDepth1,bidPriceDepth1,directionTrade1)
+    console.log(priceUpdate1,directionTrade1)
+
 }
 
 const getOrderBookDepth = async(contract) => {
@@ -452,6 +455,28 @@ const getOrderBookDepth = async(contract) => {
         bidPriceDepth,
         askPriceDepth
     }
+
+}
+
+const reformatData = (askPriceData,bidPriceData,contractDirection) => {
+    let priceList = []
+    if(contractDirection === 'baseToQuote'){
+        for(price of askPriceData){
+            let askPrice = Number(price[0])
+            let newPrice = askPrice != 0? 1/askPrice:0
+            let newQuantity = Number(price[1])*askPrice
+            priceList.push([newPrice,newQuantity])
+        }
+    } 
+    if(contractDirection === 'quoteToBase'){
+        for(price of bidPriceData){
+            let bidPrice = Number(price[0])
+            let newPrice = bidPrice != 0? bidPrice:0
+            let newQuantity = Number(price[1])
+            priceList.push([newPrice,newQuantity])
+        }
+    }
+    return priceList
 
 }
 
