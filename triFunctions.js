@@ -437,13 +437,28 @@ const calcSurfaceArb = async(pair,priceDict) => {
 
 }
 
-const getOrderBookDepth = async(surfaceArb) => {
-    
+const getOrderBookData = async(surfaceArb) => {
+    let {swap1,swap2,swap3,contract1,contract2,contract3} = surfaceArb
+    const {bidPriceDepth:bidPriceDepth1,askPriceDepth1} = await getOrderBookDepth(contract1)
+    console.log(c1)
+}
+
+const getOrderBookDepth = async(contract) => {
+    const response = await client.getOrderBook(contract,20)
+    const orderbookDepth = response.result;
+    const {asks:askPriceDepth, bids:bidPriceDepth} = orderbookDepth;
+
+    return {
+        bidPriceDepth,
+        askPriceDepth
+    }
+
 }
 
 module.exports ={
     getTriangularPairs,
     getPairPrices,
     getMarketPrices,
-    calcSurfaceArb
+    calcSurfaceArb,
+    getOrderBookData
 }

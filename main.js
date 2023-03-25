@@ -3,7 +3,8 @@ const {
     getTriangularPairs,
     getPairPrices,
     getMarketPrices,
-    calcSurfaceArb
+    calcSurfaceArb,
+    getOrderBookData
 } = require('./triFunctions')
 
 const logPairs = async () => {
@@ -61,17 +62,21 @@ const surfaceArbInfo = async() => {
         if(pricesDict!==0){
           structuredPrices[key] = pricesDict
           let surfaceArb = await calcSurfaceArb(structuredPairs[key],pricesDict)
+          let count = 0
+          
           if(surfaceArb!==0){
-            console.log(surfaceArb)
+            getOrderBookData(surfaceArb)
+            break
           }
+        
         }
     }
     
 }
 
 const main = async() => {
-    logPairs()
-    //surfaceArbInfo()
+    //logPairs()
+    surfaceArbInfo()
 }
 
 main()
