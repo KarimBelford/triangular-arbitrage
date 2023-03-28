@@ -77,9 +77,17 @@ const surfaceArbInfo = async() => {
 }
 
 const main = async() => {
-    //logPairs()
-    surfaceArbInfo()
+  // Run logPairs() once every hour (3600 seconds)
+  setInterval(logPairs, 3600000);
+
+  // Run surfaceArbInfo() once every minute (60 seconds)
+  setInterval(surfaceArbInfo, 60000);
+
+  setTimeout(() => {
+    clearInterval(logPairsInterval);
+    clearInterval(surfaceArbInterval);
+    console.log('Intervals stopped after 24 hours');
+  }, 86400000);
 }
 
-main()
-  
+main();
