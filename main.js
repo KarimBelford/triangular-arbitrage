@@ -68,7 +68,7 @@ const surfaceArbInfo = async() => {
            
             const realRateData = await getOrderBookData(surfaceArb)
             console.log(realRateData)
-            break
+            
           }
         
         }

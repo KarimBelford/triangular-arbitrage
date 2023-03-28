@@ -411,7 +411,7 @@ const calcSurfaceArb = async(pair,priceDict) => {
         let trade2Details = `Swap ${acquiredCoinT1} ${swap2} at ${swap2Rate} for ${acquiredCoinT2} ${swap3}`
         let trade3Details = `Swap ${acquiredCoinT2} ${swap3} at ${swap3Rate} for ${acquiredCoinT3} ${swap1}`
         
-        if(profitLossPercent>-1){
+        if(profitLossPercent){
             
             surfaceRateDict = {
                 "startingAmount":startingAmount,
@@ -448,9 +448,6 @@ const calcSurfaceArb = async(pair,priceDict) => {
 
 const getOrderBookData = async(surfaceArb) => {
     let {startingAmount,trade2Details,trade1Details,trade3Details,swap1,swap2,direction,directionTrade1,directionTrade2,directionTrade3,contract1,contract2,contract3} = surfaceArb
-
-    startingAmount = 1
-    
    
     try {   
         
@@ -472,7 +469,7 @@ const getOrderBookData = async(surfaceArb) => {
         let profitLoss = coinT3 - startingAmount;
         let profitLossPercent = profitLoss!==0?(profitLoss/startingAmount)*100:0;
         
-        if(profitLossPercent>0){
+        if(profitLossPercent){
             let orderBookDict = {
                 "profitLoss": profitLoss,
                 "profitLossPercent": profitLossPercent,
