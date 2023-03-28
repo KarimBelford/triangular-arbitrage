@@ -28,13 +28,6 @@ const getMarketPrices = async() =>{
     return coinPairs;
 }
 
-
-
-
-
-
-
-
 // get the base and qoute sympols and put them in an array 
 const getBaseQuoteList = async() =>{
     let baseQuoteList = [];
@@ -158,6 +151,7 @@ const getPairPrices = async(pair,priceData) => {
         }
     }
 }
+//calculate if there is a surface arbitrage opertunity 
 const calcSurfaceArb = async(pair,priceDict) => {
     let startingAmount = 100;
     let minSurfaceRate = 0;
@@ -445,7 +439,7 @@ const calcSurfaceArb = async(pair,priceDict) => {
     return 0
 
 }
-
+//get depth of order book for triangular pair
 const getOrderBookData = async(surfaceArb) => {
     let {startingAmount,trade2Details,trade1Details,trade3Details,swap1,swap2,direction,directionTrade1,directionTrade2,directionTrade3,contract1,contract2,contract3} = surfaceArb
    
@@ -491,7 +485,7 @@ const getOrderBookData = async(surfaceArb) => {
         console.error('Error getting orderbook: ', error);
       }
 }
-
+//extract lattest prices from orderbook
 const getOrderBookDepth = async(contract) => {
     const response = await client.getOrderBook(contract,50)
     const orderbookDepth = response.result;
@@ -503,7 +497,7 @@ const getOrderBookDepth = async(contract) => {
     }
 
 }
-
+//reformat price data to get prices of the contract direction 
 const reformatData = (askPriceData,bidPriceData,contractDirection) => {
     let priceList = []
 
@@ -526,7 +520,7 @@ const reformatData = (askPriceData,bidPriceData,contractDirection) => {
     }
     return priceList
 }
-
+//funtion that goes through orderbook levels until desired amount of coin is bought 
 const getCoin = (amountIn,orderbook) => {
 
     let balance = amountIn;
